@@ -1,4 +1,5 @@
 require 'omniauth-oauth'
+require 'multi-json'
 
 module OmniAuth
 module Strategies
@@ -16,25 +17,27 @@ class Withings < OmniAuth::Strategies::OAuth
     #:authorize_url      => "https://www.rdio.com/oauth/authorize"
   }
 
-  uid{ request.params['user_id'] }
+  uid{ request.params['userid'] }
     
+  extra do 
+    { :raw_info => access_token 
+    }
+  end
+
 #def auth_hash
 #  OmniAuth::Utils.deep_merge(super, {
 #    # withings specific stuff here
-#    #'uid'=>,
-#    #'user_info'=>
-#    #'extra' => { }
+#    'uid'=>,
+#    'user_info'=>
+#    'extra' => {  }
 #  })
 #end
-#
 #def user_info
 #end
-#
 #def user_hash
+#  @user_hash ||= MultiJson.decode(@access_token.post(dd
 #end
 
-# def request_phase
-# end
 
 end
 end
